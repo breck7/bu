@@ -51,7 +51,7 @@ main
   div
    addClass intro-bottom
    Boo them using git clone.
-   span 03 people & counting
+   span 04 people & counting
     addClass tally
  section
   id people
@@ -165,6 +165,42 @@ main
     addClass person-description
    span budario.breck.lol
     addClass destination
+  a
+   href https://bupatrick.breck.lol/
+   data-site bupatrick
+   addClass person
+   aria-label Read Patrick Collison’s writing
+   div
+    addClass person-topline
+    span No. 04
+    span The builder
+   div
+    addClass portrait
+    img
+     src assets/patrick-hedcut.png
+     alt Stippled ink portrait of Patrick Collison
+     width 1024
+     height 1024
+     addClass hedcut
+    div
+     addClass sticker
+     aria-hidden true
+     img
+      src assets/thumb-down.svg
+      alt
+      width 29
+      height 29
+     span BOO
+   div
+    addClass person-name
+    h2 Patrick Collison
+    span ↗
+     addClass arrow
+     aria-hidden true
+   boo patrickcollison.com
+    addClass person-description
+   span bupatrick.breck.lol
+    addClass destination
 
 footer
  addClass footer
@@ -180,7 +216,7 @@ css
  *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:30px}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.055;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23000' filter='url(%23n)' opacity='.4' d='M0 0h180v180H0z'/%3E%3C/svg%3E");z-index:3}a{color:inherit;text-decoration:none}a:focus-visible{outline:2px solid var(--ink);outline-offset:8px}::selection{background:#e9ed83}p{margin:0}.masthead,main,.footer{width:calc(100% - 112px);max-width:1180px;margin:auto}
  .masthead{display:flex;align-items:center;gap:26px;padding:28px 0 23px;border-bottom:1px solid var(--ink)}.wordmark{font:italic bold 39px/.9 var(--serif);letter-spacing:-3px}.masthead-note{font-size:11px;color:var(--muted)}.directory-link{margin-left:auto;font-size:11px}.directory-link:hover{text-decoration:underline;text-underline-offset:4px}
  .introduction{padding:61px 0 38px}.eyebrow{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase}.introduction h1{font:400 clamp(60px,8.9vw,112px)/1.08 var(--serif);letter-spacing:-6px;margin:18px 0 23px}.intro-bottom{display:flex;justify-content:space-between;align-items:center;gap:20px}.intro-bottom p{font:17px/1.5 var(--serif);color:#656557}.tally{font:10px var(--sans);letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
- .people{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));padding:0 0 51px;border-bottom:1px solid var(--ink)}.person{display:block;min-width:0;padding:21px 27px 0;border-top:1px solid var(--line);position:relative}.person:first-child{padding-left:0}.person:last-child{padding-right:0}.person+.person{border-left:1px solid var(--line)}.person-topline{display:flex;justify-content:space-between;font-size:9px;letter-spacing:1.15px;text-transform:uppercase;color:var(--muted)}.portrait{position:relative;aspect-ratio:1;margin:11px -6px 14px}.hedcut{width:100%;height:100%;display:block;object-fit:contain;mix-blend-mode:multiply;filter:grayscale(1) contrast(1.1) brightness(1.1);transition:transform .35s ease}.person:hover .hedcut{transform:translateY(-4px)}
+ .people{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));padding:0 0 51px;border-bottom:1px solid var(--ink)}.person{display:block;min-width:0;padding:21px 27px 0;border-top:1px solid var(--line);position:relative}.person:first-child{padding-left:0}.person:last-child{padding-right:0}.person+.person{border-left:1px solid var(--line)}.person-topline{display:flex;justify-content:space-between;font-size:9px;letter-spacing:1.15px;text-transform:uppercase;color:var(--muted)}.portrait{position:relative;aspect-ratio:1;margin:11px -6px 14px}.hedcut{width:100%;height:100%;display:block;object-fit:contain;mix-blend-mode:multiply;filter:grayscale(1) contrast(1.1) brightness(1.1);transition:transform .35s ease}.person:hover .hedcut{transform:translateY(-4px)}
  .sticker{position:absolute;right:5px;bottom:5px;width:91px;height:91px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:3px;background:#e9ed83;transform:rotate(12deg);clip-path:polygon(50% 0,57% 6%,66% 3%,71% 12%,81% 10%,83% 21%,93% 24%,91% 34%,100% 40%,95% 50%,100% 60%,91% 66%,93% 76%,83% 79%,81% 90%,71% 88%,66% 97%,57% 94%,50% 100%,43% 94%,34% 97%,29% 88%,19% 90%,17% 79%,7% 76%,9% 66%,0 60%,5% 50%,0 40%,9% 34%,7% 24%,17% 21%,19% 10%,29% 12%,34% 3%,43% 6%);transition:transform .25s ease}.sticker span{font:900 22px/1 var(--sans);letter-spacing:-1px}[data-site="busam"] .sticker{background:#f5a18a;transform:rotate(-13deg);right:auto;left:1px}[data-site="budario"] .sticker{background:#b5c7e8;transform:rotate(9deg)}.person:hover .sticker{transform:rotate(-5deg) scale(1.07)}
  .person-name{display:flex;align-items:center;justify-content:space-between;gap:10px}.person-name h2{font:400 clamp(24px,2.6vw,35px)/1.2 var(--serif);letter-spacing:-1.2px;margin:0}.arrow{font-size:24px;font-weight:400;transition:transform .25s ease}.person:hover .arrow{transform:translate(3px,-3px)}.person-description{font:12px/1.7 var(--sans);color:var(--muted);margin-top:10px}.destination{display:inline-block;font:10px/1.5 var(--sans);letter-spacing:.2px;margin-top:21px;border-bottom:1px solid var(--line);padding-bottom:3px}.person:hover .destination{border-color:var(--ink)}.footer{display:flex;justify-content:space-between;gap:20px;padding:23px 0 32px;font-size:10px;line-height:1.6;color:var(--muted)}.footer a:hover{color:var(--ink)}
  @media(min-width:1500px){.introduction{padding-top:76px}.portrait{margin-top:16px}}@media(max-width:900px){.masthead,main,.footer{width:calc(100% - 56px)}.person{padding-left:17px;padding-right:17px}.sticker{width:77px;height:77px}.sticker span{font-size:19px}.sticker img{width:25px;height:25px}.person-description{font-size:11px}.introduction h1{letter-spacing:-4px}.person-topline{font-size:8px;letter-spacing:.7px}}
@@ -190,3 +226,7 @@ css
 css
  @media(min-width:641px){.people{column-gap:54px}.person,.person:first-child,.person:last-child{padding:21px 0 0}.person+.person{border-left:0}.person+.person::before{content:"";position:absolute;left:-27px;top:0;bottom:0;width:1px;background:var(--line)}}
  @media(min-width:641px) and (max-width:900px){.people{column-gap:34px}.person+.person::before{left:-17px}}
+
+css
+ [data-site="bupatrick"] .sticker{background:#c8d6ac;transform:rotate(-8deg)}
+ @media(min-width:641px) and (max-width:1100px){.people{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:32px}.person:nth-child(odd)::before{display:none}}

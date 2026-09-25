@@ -1,5 +1,11 @@
 # Hedcut assets
 
+## Patrick
+
+Generated with the built-in image-generation tool. Saved as `patrick-hedcut.png`.
+
+Use case: stylized-concept. Asset type: a single editorial hedcut portrait for a website. Create a recognizable head-and-shoulders portrait of Patrick Collison, the Irish Stripe cofounder, short curly reddish hair rendered in black ink, high forehead, clean shaven, relaxed friendly expression. Traditional newspaper hedcut, exceptionally fine black ink stippling and short curved engraving marks, hand drawn etched editorial illustration, dense dots shaping face and hair, absolutely no gray airbrush or photographic shading. Straight-on or slight three-quarter pose. Simple dark casual shirt or sweater, shoulders fade gracefully into sparse ink dots near lower edge. Centered portrait with entire head and shoulders, generous empty margins and space above hair. Square composition, off-white ivory background #f5f0e6. Monochrome black ink only, no text, no border, no labels, no symbols, no stickers, no watermark. Beautiful meticulous portrait suitable for a literary journal. Save the generated image for use in the website project.
+
 Generated with the built-in image-generation tool.
 
 Final page assets: `paul-hedcut.png`, `sam-hedcut.png`, `dario-hedcut-v2.png`.
