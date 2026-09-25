@@ -1,0 +1,11 @@
+importOnly
+
+blog.parsers
+bu.scroll
+replace BU_SITE_NAME bunew
+replace BU_SITE_DESCRIPTION boo Author name. made by @breckyunits
+originalBlogUrl https://example.com/
+replace BU_ORIGINAL_LABEL Original blog ↗
+replace BU_POST_DATE printDate
+
+BU_HEAD
