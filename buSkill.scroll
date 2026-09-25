@@ -1,0 +1,188 @@
+importOnly
+title bu project skill
+description Create and maintain bu writing archives by copying bunew, updating identity settings, and importing the original site's content.
+
+# Purpose and scope
+
+Use this file for work in the bu project: creating a person's archive, importing or refreshing writing, maintaining the shared template, or editing the directory website. This is the self-contained project skill requested by the user. Keep the instructions in this one Scroll file; do not require another skill to understand the workflow and do not create a separate SKILL.md or README.md.
+
+The default request to create an archive means: copy bunew, update settings, and pull in that person's content. Preserve the template. It does not mean redesigning the archive, changing its Git policy, adding documentation formats, creating a repository, or publishing it. Follow additional user instructions when those actions are requested.
+
+# Template invariants
+
+- bunew is the source of truth for new archives. Copy it rather than starting from an older person's archive or rebuilding the layout.
+- Include dotfiles and hidden directories: .gitignore, .nojekyll, .github, and the bundled search dependencies. The provided creation script does this.
+- Preserve the copied .gitignore byte for byte. Do not replace its rules, add exceptions for ignored source files, or force-add files just because they seem useful to track. Ignored does not mean unnecessary or safe to delete.
+- Do not confuse bu/.gitignore, which belongs to the parent directory project, with bunew/.gitignore, which belongs to each new archive. Do not copy one over the other. New archives inherit bunew/.gitignore.
+- Use readme.scroll for site documentation and comments. Do not create README.md, additional instruction files, changelogs, or installation guides for a new archive.
+- Preserve readme.scroll's opening comments. Add source-specific refresh or provenance notes as opening Scroll comments when necessary; configure.py preserves those comments.
+- Preserve bu.scroll, style.scroll, site.scroll, shared includes, and the default layout during a content import. Do not make person-specific cosmetic improvements as part of copying the template.
+- Change site.json identity and the package name/description. Keep the existing JSON settings and import manifest schema; do not replace them with a new data format merely because Scroll is preferred for publishing.
+- Keep necessary source-specific fetch/conversion code in scripts/. Only adjust import or parser behavior when the actual source content requires it, such as missing publication dates. Keep those changes small and documented.
+- Keep bunew empty and reusable. Do not put a person's content, assets, identity, source-specific crawler, or temporary dependencies into it.
+- Leave other person folders and the parent directory page alone unless the request includes them. Fix shared design or template behavior centrally when that work is requested.
+
+# Project map
+
+- bu/readme.scroll is the parent directory website; bu/index.html is its generated output.
+- bu/bu.scroll contains shared layout replacements, styling, parser helpers, and archive interaction code.
+- bu/update.sh copies bu/bu.scroll into every immediate child folder that already contains bu.scroll, including bunew. It affects multiple sites; use it for requested shared changes, not as a routine content-import step.
+- bunew is the empty starter. Person folders are siblings named for their archive, such as bupatrick.
+- site.json contains name, author, originalUrl, and baseUrl. Leave baseUrl empty until an actual publication URL is known.
+- package.json contains the archive package identity, commands, and pinned Scroll compiler dependency. Retain its scripts and version choices.
+- scripts/new_person.py copies the empty starter and calls configure. Run the copy in bunew, not a populated person's copied script.
+- scripts/configure.py reads site.json and regenerates head.scroll, search.scroll, and the page portion of readme.scroll. Edit settings rather than hand-editing generated identity files.
+- archive.json is the article manifest. originals/<slug>.scroll holds converted bodies. originals/ also holds downloaded source pages; assets/ holds local article images.
+- scripts/import_blog.py consumes the manifest and converted Scroll bodies. It does not fetch URLs or convert arbitrary HTML.
+- blog.parsers contains archive rendering, original/source links, and narrow site-specific parser behavior.
+- post-header.scroll includes head.scroll and the shared post header. footer.scroll invokes the shared post footer. homeFooter.scroll is the homepage footer.
+- style.scroll builds style.css; site.scroll builds site.js. Edit Scroll sources rather than generated CSS or JavaScript.
+- Article .html and .txt files, index.html, search.html, search.json, and search.csv are build products. The ignore policy and local build outputs serve different purposes; retain both as the template intends.
+
+# Create a new archive
+
+Inspect the working directory, Git status, bunew's current settings/scripts, and the supplied source site. Check that the desired destination does not already exist. Do not overwrite an existing archive or copy another person's Git history. For existing destinations, inspect and update them in place.
+
+From the bu directory, use the provided creation command, substituting the requested folder, full author name, and original site URL:
+
+```bash
+ python3 bunew/scripts/new_person.py bupatrick "Patrick Collison" https://patrickcollison.com/
+```
+
+The command copies dotfiles, excludes .git and local caches/dependencies, writes site.json, updates package identity, configures the new site, and removes stale generated pages. It refuses an existing destination or a populated starter. If copying manually is necessary, preserve the same behavior and all template dotfiles.
+
+The identity file has this existing shape:
+
+```json
+ {
+   "name": "bupatrick",
+   "author": "Patrick Collison",
+   "originalUrl": "https://patrickcollison.com/",
+   "baseUrl": ""
+ }
+```
+
+Use the existing Scroll executable when it matches the template's dependency. Otherwise install the dependency from the copied package.json with npm install. Keep temporary scraper environments outside the archive; do not change .gitignore to accommodate them.
+
+# Discover and import content
+
+Read the site's actual navigation, archive, feeds, or sitemap. Follow relevant source links and record the scope. Import individually addressable writing and relevant reference pages. Avoid duplicating full article content from listing pages. Do not silently omit pages after fetch failures; retry a sensible way or report the specific missing pages.
+
+Save original HTML before conversion. Extract the article body, leaving out repeated navigation, tracking scripts, menus, and page furniture. Preserve the author’s text, paragraph order, headings, ordered and unordered lists, nested list items, links, captions, and meaningful images. Do not summarize, rewrite, or invent article content.
+
+Resolve relative links against the original page URL. Preserve reference destinations, mailto links, fragments, and meaningful anchor IDs. Localize internal article links only when their target and anchor are verified. Download article images into assets/ and use local relative image paths. Keep a source-to-asset mapping if the importer needs it for repeatable refreshes.
+
+Choose unique stable lowercase hyphenated slugs. Do not collide with template filenames: bu, head, readme, search, site, style, footer, homeFooter, post-header, index, blog, or favicon. The importer validates slugs; let it fail rather than overwriting a template file.
+
+Each body goes in originals/<slug>.scroll without title/date/canonical metadata or shared header/footer includes. Add an entry to the existing archive.json array:
+
+```json
+ [
+   {
+     "slug": "article-slug",
+     "title": "Article title",
+     "date": "2026-01-01",
+     "url": "https://example.com/article-slug"
+   }
+ ]
+```
+
+The default importer requires nonempty single-line title/date/url fields, a valid ISO calendar date, an absolute HTTP(S) source URL, a valid unique slug, and a nonempty body. It generates the following post shape; keep this structure if writing a post directly:
+
+```scroll
+ title Article title
+ date 2026-01-01
+ canonicalUrl https://example.com/article-slug
+
+ post-header.scroll
+
+ The article's first paragraph.
+
+ footer.scroll
+```
+
+Use publication dates stated by the source. Do not present fetch dates, file timestamps, historical dates mentioned in the prose, or inferred dates as publication dates. Preserve month/year precision when that is all the source provides.
+
+The starter currently requires a full date. For undated content, a narrowly scoped manifest/import/parser adaptation is necessary: explicitly mark the entry undated, show Date not stated on the article, group it under Undated, and leave the public search date and HTML datetime empty. If a technical sorting date is needed, document it as an internal sentinel and prevent it from being displayed as a real date. Keep undated pages last for both date-sort directions. Do not change the whole template layout to solve this metadata issue.
+
+Record import provenance, exclusions, date conventions, and exact refresh commands in opening comments in readme.scroll. Source-fetch timestamps are provenance, not publication metadata. The bupatrick importer is one source-specific implementation, not a substitute starter for future archives.
+
+Reimporting overwrites matching post sources. Make lasting conversion fixes in the converter or originals body. Removing an article requires aligning the manifest and its generated .scroll/.html/.txt files; remove only the intended article's files. Never clear the entire archive to refresh it.
+
+# Native Scroll publishing conventions
+
+Scroll is both a publishing language and an indentation-based tree notation. In a document, unrecognized lines are ordinary paragraphs, not automatically structured data records. Use one space per indentation level and keep parent/child trees contiguous. An unindented blank line closes a tree; do not put one before a nested list or another child.
+
+Write normal paragraphs directly, without p or html prefixes. Keep article prose flat at the top level between the shared header and footer. Do not turn imported prose into deeply nested layout trees or compensate with custom text-export/search code. Use an explicit paragraph form only when the text would otherwise be parsed as a command.
+
+Use native headings, list markers, images, quotes, and aftertext. An article already has its title heading from the shared header; body subsections generally start at ##. Use layout elements for actual UI composition, not as wrappers around every paragraph. Put recurring buildHtml, buildTxt, keyboardNav, printTitle, and printDate behavior in shared includes.
+
+Examples of ordinary prose, emphasis, and links:
+
+```scroll
+ A normal paragraph with an important phrase and an emphasized phrase.
+  bold important phrase
+  italics emphasized phrase
+
+ Read the original essay.
+  https://example.com/essay original essay
+
+ The entire linked paragraph
+  https://example.com/essay
+
+ Contact the author.
+  link mailto:author@example.com Contact the author.
+```
+
+The emphasis cue is italics, not italic. Unsupported aftertext can render as stray visible prose even when scroll test reports zero parser errors. Inspect the installed compiler's parser definitions when unsure instead of guessing syntax.
+
+For an entire linked paragraph or list item, a quick URL child needs no repeated label. For a link covering only part of the line, provide the matching visible text after the URL. Explicit link URL selector syntax handles mailto and other links and uses the template's link parser to avoid polluting text exports with link directives. When importing text containing URLs, linkify false can prevent automatic links from being wrapped again by explicit aftertext. Avoid overlapping selectors that can corrupt generated links; verify their rendered destinations.
+
+```scroll
+ - First item with a reference.
+  link https://example.com/reference reference
+  - Nested item.
+   bold Nested
+ - Second item.
+
+ image assets/diagram.png
+  caption The original caption.
+```
+
+Preserve numbered-list semantics and keep list siblings and descendants contiguous. For inline HTML conversion, do not inject spaces around every inline element: that changes punctuation, contractions, subscripts, and joined words. Preserve the actual text and meaningful line breaks while normalizing incidental source whitespace.
+
+Use child id and href attributes and addClass className for native elements. A selected span can use addClass className selected text. Use native image syntax with a caption when the source supplies one. Include style.css and site.js by filename; scripts that inspect the DOM belong after content or must use an appropriate loading mechanism.
+
+Do not write Markdown links in publishing source. Do not use literal HTML tags, class="...", or whole-page html blocks for ordinary content. First inspect the compiler's native features; use a small reusable parser only for a real semantic gap. Apply these conventions to generated Scroll as well as hand-authored files.
+
+For any small structured Scroll data added for an actual project need, use stable keys, one-space children, readable leaf values, and repeated child records. Parse indentation before splitting a node's key and value. Validate expected shapes and keep unknown facts distinct from observed data. Do not introduce ScrollSet schemas or migrate the existing JSON settings/manifest as part of a routine archive import.
+
+# Build and verify
+
+Run these from the new person's folder after preparing bodies and manifest:
+
+```bash
+ npm run import
+ npm run build
+ npm run check
+```
+
+Build runs configure.py and scroll build. Check runs scroll test and scripts/verify.py. The verifier checks article/output counts, search row counts, one heading/main region per page, and local links/anchors. It does not prove source fidelity or interactive behavior.
+
+Before finishing, compare the new folder against bunew. Identity files, content, assets, and justified source-specific import/date handling are expected differences. .gitignore and shared style/layout files should remain identical for a routine import. Confirm no README.md or unnecessary documentation was introduced and no source references point to the template author.
+
+Inspect converted .scroll for literal HTML, Markdown links, unnecessary paragraph wrappers, broken indentation, and unrecognized aftertext. Compare source and output text, list items, and link destinations, including nested lists, email links, and image captions. Account for native list markers and whitespace during comparisons. A word-count check alone cannot establish correct order, formatting, or absence of extra text.
+
+Preview the generated archive and representative articles in a browser. Check narrow and wide layouts, title filtering, full-text search, date and duration sorting, undated labels when applicable, source links, image loading, text exports, and keyboard behavior that changed. Use the existing project layout as the baseline; do not quietly redesign it during QA.
+
+Use npm run serve for the default local server or select a free local port if needed. Report the actual preview URL and whether publishing occurred. Do not claim completion for pages that failed to import or for checks that did not pass.
+
+# Shared maintenance and publishing
+
+When asked to change the shared archive UI, edit bu/bu.scroll or the appropriate bunew source/generator rather than generated assets or separate patches in each new archive. Inspect the current implementation: older comments may describe one-line parent imports, while update.sh now distributes independent bu.scroll copies. Preserve the actual current mechanism.
+
+If distributing a shared bu.scroll change, inspect affected person folders, run ./update.sh deliberately, then rebuild and check affected sites. Keep source-specific parsers and article content intact. Changes to configure.py must preserve opening readme.scroll comments and regenerate identity consistently.
+
+When the user asks to add a person to the parent directory, edit bu/readme.scroll using the existing card structure and count, and build it. Use an actual verified destination URL and follow the existing asset style; do not invent a deployed address or create new portraits without task context.
+
+Publishing, repository creation, commits, pushes, and custom domains follow the user's requested scope. Inspect existing remotes and deployment workflow before acting. A copied clone command is template text, not evidence that the GitHub repository exists. Keep baseUrl and CNAME consistent with the actual host when publishing; .nojekyll comes from the template. Report the real resulting URL and any concrete deployment blocker.
