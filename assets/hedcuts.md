@@ -25,3 +25,7 @@ Use case: stylized-concept. Asset type: a single editorial hedcut portrait for a
 ## Dario correction
 
 Remove his eyeglasses entirely. Keep his eyes natural and unobstructed, eyebrows, curly hair, face, black shirt, stippled newspaper ink style, cream paper, square composition and everything else unchanged. Output only the corrected Dario portrait. No glasses, no text, no new elements.
+
+## elon
+
+Use case: stylized-concept. Asset type: a single editorial hedcut portrait for a website. Create a recognizable head-and-shoulders portrait of Elon Musk, the technology entrepreneur, but exaggerated for comic effect: a hugely oversized wide jaw and chin, an enormous wide goofy open-mouthed grin with prominent teeth, and a comically tall forehead and hairline. Keep the rest recognizable: short dark hair, strong brow, clean shaven, slight three-quarter pose. Traditional newspaper hedcut, exceptionally fine black ink stippling and short curved engraving marks, hand drawn etched editorial illustration, dense dots shaping face and hair, absolutely no gray airbrush or photographic shading. Simple dark casual shirt or sweater, shoulders fade gracefully into sparse ink dots near the lower edge. Centered portrait with the entire head and shoulders, generous empty margins and space above the hair. Square composition, off-white ivory background #f5f0e6. Monochrome black ink only, no text, no border, no labels, no symbols, no stickers, no watermark. Beautiful meticulous portrait suitable for a literary journal.

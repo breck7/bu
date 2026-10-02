@@ -1,6 +1,8 @@
 importOnly
-
+baseUrl https://bunew.breck.lol/
+openGraphImage paul-hedcut.png
 blog.parsers
+editBaseUrl https://github.com/breck7/bunew/blob/main/
 bu.scroll
 replace BU_SITE_NAME bunew
 replace BU_SITE_DESCRIPTION boo Author name. made by @breckyunits
