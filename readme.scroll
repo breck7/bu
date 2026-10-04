@@ -30,6 +30,8 @@ buildHtml
 bu.scroll
 metaTags
 favicon assets/favicon.svg
+baseUrl https://bu.breck.lol
+openGraphImage og.png
 
 header
  addClass masthead
